@@ -1,0 +1,74 @@
+<template>
+
+    <lightning-card title="Search Opportunity" icon-name="standard:user">
+
+        <div class="slds-p-around_medium slds-m-around_x-large">
+
+            <!-- Select Field responsive grid system for arranging containers on a page. -->
+            <lightning-layout>
+                <lightning-layout-item  size="1" style="padding-left: 12px;" >
+                        Select Field
+                </lightning-layout-item>
+
+                <lightning-layout-item size="4">
+                    <select onchange={selectedFieldFun} style="width:40%">
+                        <option>Select</option>
+                        <option>Name</option>
+                        <option>Account Name</option>
+                        <option>Stage Name</option>
+                        <option>Type</option>
+                    </select>
+                </lightning-layout-item>
+            </lightning-layout >
+              
+            <!-- Enter Keyword -->
+            <lightning-layout>
+                <lightning-layout-item padding="around-small" size="1" style="padding-top: 20px;">
+                        Enter Keyword
+                </lightning-layout-item>
+
+                <lightning-layout-item  size="4" >
+                    <lightning-input padding="around-small" type="text" placeholder="Enter keyword" onchange={searchValues} ></lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+
+        </div>
+
+        <!-- Opp List -->
+        <template if:true={recordsFound}> 
+             <lightning-card >
+
+                <div class="slds-p-around_large">                
+                    <lightning-datatable
+                        key-field="Id"
+                        data={visibleRecords}
+                        columns={columns}
+                        show-row-number-column="true"
+                        hide-checkbox-column
+                        onrowaction={callRowAction}
+                        >
+                    </lightning-datatable>
+                </div>
+
+               <div slot="footer">
+                    <c-pagination_-search-opp records={oppList} onupdate={updateRec}></c-pagination_-search-opp>
+               </div>
+
+            </lightning-card>
+        </template>
+
+        <!--If No Record -->
+        <template if:true={noRecordsFound}>
+            <div class="slds-m-horizontal_large">
+                <lightning-card >
+                    <div class="slds-align_absolute-center" style="height:5rem"> 
+                        <strong class="slds-text-color_error slds-text-heading_large">Sorry!!! No Record Found</strong>
+                    </div>
+               </lightning-card>
+            </div>
+       </template>
+
+        
+    </lightning-card>
+    
+</template>
