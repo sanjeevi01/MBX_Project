@@ -1,36 +1,57 @@
 public with sharing class SearchOppCon {
-    @AuraEnabled(cacheable=true)
-    public static list<Opportunity> findOpp(String s, String fieldName){
+  @AuraEnabled(cacheable=true)
+  public static list<Opportunity> findOpp(String s, String fieldName) {
+    List<Opportunity> opp = new List<Opportunity>();
 
-        List<Opportunity> opp = new List<Opportunity>();
-            String searchword = '%'+ s +'%';
-    
-           if(fieldName=='Name' ){
-                opp=[select id, name, AccountId, Account_Name__c, stagename,type,amount from opportunity where name like:searchword];
-                system.debug(opp);
-            }
-            else if(fieldName=='Account Name'){
-                opp=[select id,name,AccountId,Account_Name__c,stagename,type,amount from opportunity where account.name like:searchword];
-                system.debug(opp);
-            }
-            else if(fieldName=='Stage Name'){
-                opp=[select id,name,AccountId,Account_Name__c,stagename,type,amount from opportunity where stagename like:searchword];
-                system.debug(opp);
-            }
-            else if(fieldName=='Type'){
-                opp=[select id,name,accountId,Account_Name__c,stagename,type,amount from opportunity where type like:searchword];
-                system.debug(opp);
-            }
-            else if(fieldName=='Amount'){
-                Integer a=Integer.valueOf(s);
-                opp=[select id,name,AccountId,Account_Name__c,stagename,type,amount from opportunity where amount =:a];
-                system.debug(opp);
-            }
-            else if(fieldName=='Select' || fieldName==null ){
-                opp=[select id, name, AccountId, Account_Name__c, stagename,type,amount from opportunity where (name like:searchword) OR (stageName like:searchword) OR (type like:searchword) or (Account_Name__c like:searchword) ];
-                system.debug(opp);
-            }
-            return opp;
+    String searchword = '%' + s + '%';
 
-    }
+          if (fieldName == 'Name') {
+            opp = [
+              SELECT id, name, AccountId, Account_Name__c, stagename, type, amount
+              FROM opportunity
+              WHERE name LIKE :searchword
+            ];
+          } 
+          else if (fieldName == 'Account Name') {
+            opp = [
+              SELECT id, name, AccountId, Account_Name__c, stagename, type, amount
+              FROM opportunity
+              WHERE account.name LIKE :searchword
+            ];
+          } 
+          else if (fieldName == 'Stage Name') {
+            opp = [
+              SELECT id, name, AccountId, Account_Name__c, stagename, type, amount
+              FROM opportunity
+              WHERE stagename LIKE :searchword
+            ];
+          }
+          else if (fieldName == 'Type') {
+            opp = [
+              SELECT id, name, accountId, Account_Name__c, stagename, type, amount
+              FROM opportunity
+              WHERE type LIKE :searchword
+            ];
+          } 
+          else if (fieldName == 'Amount') {
+            Integer a = Integer.valueOf(s);
+            opp = [
+              SELECT id, name, AccountId, Account_Name__c, stagename, type, amount
+              FROM opportunity
+              WHERE amount = :a
+            ];
+          } 
+          else if (fieldName == 'Select' || fieldName == null) {
+            opp = [
+              SELECT id, name, AccountId, Account_Name__c, stagename, type, amount
+              FROM opportunity
+              WHERE
+                name LIKE :searchword
+                OR stageName LIKE :searchword
+                OR type LIKE :searchword
+                OR Account_Name__c LIKE :searchword
+            ];
+          }
+    return opp;
+  }
 }

@@ -1,0 +1,24 @@
+:host {
+  --sds-c-card-color-background: #d7eff5;
+}
+
+.bgImg2 {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("https://cutewallpaper.org/21/website-background-images-hd/Cool-Backgrounds-for-Laptops-59-images.jpg");
+}
+
+.bgImg1 {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("https://png.pngtree.com/thumb_back/fh260/back_pic/03/80/06/3757c30a762387b.jpg");
+}
+
+.modelPopup {
+  font-weight: 800;
+  color: black;
+  padding-left: 50px;
+  padding-bottom: 40px;
+}

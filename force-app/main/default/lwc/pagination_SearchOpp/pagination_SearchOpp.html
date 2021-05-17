@@ -1,36 +1,32 @@
 <template>
-    
     <div class="slds-p-horizontal_x-large">
         <lightning-layout>
-
             <lightning-layout-item>
-                <lightning-button label="Previous" icon-name="utility:chevronleft" icon-position="left" onclick={previousHander} disabled={disablePrevious} variant="brand"> </lightning-button>           
+                <lightning-button label="Previous" icon-name="utility:chevronleft" icon-position="left"
+                    onclick={previousHandler} disabled={disablePrevious} variant="brand">
+                </lightning-button>
             </lightning-layout-item>
 
             <lightning-layout-item flexibility="grow">
-
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size_2-of-3">
-                      <span>Showing page {currentPage} of {totalPage}</span>
+                        <strong>Showing page {currentPage} of {totalPage}</strong>
                     </div>
 
                     <div class="slds-col slds-size_1-of-3">
                         <div class="slds-grid">
                             <div class="slds-col">
-                                <span>Total Record Size:{totalRecordSize}</span>
+                                <strong>Total Record Count:{totalRecordSize}</strong>
                             </div>
-                            <div class="slds-col ">
-                                <span class="slds-p-around_medium">
-                                    Record Size
-                                </span>
+                            <div class="slds-col">
+                                <strong class="slds-p-around_medium"> Record Size </strong>
                                 <span>
-                                    <select onchange={recSizeHandler} >
-                                        <option>5</option>
+                                    <select onchange={recSizeHandler}>
                                         <option>10</option>
-                                        <option>15</option>
                                         <option>20</option>
+                                        <option>30</option>
                                     </select>
-                                </span>                                  
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -39,11 +35,10 @@
             </lightning-layout-item>
 
             <lightning-layout-item>
-                <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right" onclick={nextHander} disabled={disableNext} variant="brand"> </lightning-button>           
+                <lightning-button label="Next" icon-name="utility:chevronright" icon-position="right"
+                    onclick={nextHandler} disabled={disableNext} variant="brand">
+                </lightning-button>
             </lightning-layout-item>
-            
         </lightning-layout>
-        
     </div>
-    
 </template>

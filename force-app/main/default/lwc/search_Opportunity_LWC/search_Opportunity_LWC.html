@@ -1,17 +1,14 @@
 <template>
-
-    <lightning-card title="Search Opportunity" icon-name="standard:user">
-
-        <div class="slds-p-around_medium slds-m-around_x-large">
-
-            <!-- Select Field responsive grid system for arranging containers on a page. -->
+    <lightning-card title="Search Opportunity" icon-name="standard:team_member">
+        <div class="slds-p-around_x-large bgImg1">
+            <!-- Select Field -->
             <lightning-layout>
-                <lightning-layout-item  size="1" style="padding-left: 12px;" >
-                        Select Field
+                <lightning-layout-item size="1" style="padding-left: 12px; color: azure">
+                    <strong>Select Field</strong>
                 </lightning-layout-item>
 
-                <lightning-layout-item size="4">
-                    <select onchange={selectedFieldFun} style="width:40%">
+                <lightning-layout-item size="2">
+                    <select onchange={selectedFieldFun} style="width: 40%">
                         <option>Select</option>
                         <option>Name</option>
                         <option>Account Name</option>
@@ -19,56 +16,125 @@
                         <option>Type</option>
                     </select>
                 </lightning-layout-item>
-            </lightning-layout >
-              
-            <!-- Enter Keyword -->
-            <lightning-layout>
-                <lightning-layout-item padding="around-small" size="1" style="padding-top: 20px;">
-                        Enter Keyword
-                </lightning-layout-item>
-
-                <lightning-layout-item  size="4" >
-                    <lightning-input padding="around-small" type="text" placeholder="Enter keyword" onchange={searchValues} ></lightning-input>
-                </lightning-layout-item>
             </lightning-layout>
 
+            <!-- Enter Keyword -->
+            <lightning-layout>
+                <lightning-layout-item padding="around-small" size="1" style="padding-top: 20px; color: azure">
+                    <strong>Enter Keyword</strong>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="4">
+                    <lightning-input 
+                        padding="around-small" 
+                        type="text" 
+                        placeholder="Enter keyword"
+                        onchange={searchValues}
+                        >
+                    </lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
         </div>
 
         <!-- Opp List -->
-        <template if:true={recordsFound}> 
-             <lightning-card >
-
-                <div class="slds-p-around_large">                
-                    <lightning-datatable
-                        key-field="Id"
-                        data={visibleRecords}
+        <template if:true={recordsFound}>
+            <lightning-card>
+                <div class="slds-p-around_large bgImg2">
+                    <lightning-datatable 
+                        key-field="Id" 
+                        data={visibleRecords} 
                         columns={columns}
-                        show-row-number-column="true"
-                        hide-checkbox-column
-                        onrowaction={callRowAction}
-                        >
+                        show-row-number-column="true" 
+                        hide-checkbox-column 
+                        onrowaction={sendDetails}>
                     </lightning-datatable>
                 </div>
 
-               <div slot="footer">
+                <div class="slds-p-around_medium" slot="footer" style="background: steelblue">
                     <c-pagination_-search-opp records={oppList} onupdate={updateRec}></c-pagination_-search-opp>
-               </div>
-
+                </div>
             </lightning-card>
         </template>
 
         <!--If No Record -->
         <template if:true={noRecordsFound}>
             <div class="slds-m-horizontal_large">
-                <lightning-card >
-                    <div class="slds-align_absolute-center" style="height:5rem"> 
+                <lightning-card>
+                    <div class="slds-align_absolute-center" style="height: 5rem; background: bisque">
                         <strong class="slds-text-color_error slds-text-heading_large">Sorry!!! No Record Found</strong>
                     </div>
-               </lightning-card>
+                </lightning-card>
             </div>
-       </template>
-
-        
+        </template>
     </lightning-card>
-    
+
+    <!-- PopUp -->
+
+    <!--Use template if:true to display/hide popup based on isModalOpen value-->
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="
+              slds-button slds-button_icon
+              slds-modal__close
+              slds-button_icon-inverse
+            " title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small">
+                        </lightning-icon>
+
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+
+                    <h1 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        <strong> Are you sure? </strong>
+                    </h1>
+                </header>
+
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_x-large " id="modal-content-id-1">
+                    <div class="slds-align_absolute-center slds-p-horizontal_large slds-p-bottom_large">
+                        <img src={miLogo} width="100" height="100" />
+                    </div>
+                    <dl class="
+              slds-list_horizontal
+              slds-wrap
+              .slds-text-title_bold
+              modelPopup
+            ">
+                        <dt class="slds-item_label slds-truncate" title="Name">Name</dt>
+                        <dd class="slds-item_detail slds-truncate">{opp.name}</dd>
+                        <dt class="slds-item_label slds-truncate" title="Phone">
+                            Account Name
+                        </dt>
+                        <dd class="slds-item_detail slds-truncate">{opp.accName}</dd>
+                        <dt class="slds-item_label slds-truncate" title="Type">
+                            Stage Name
+                        </dt>
+                        <dd class="slds-item_detail slds-truncate">{opp.stage}</dd>
+                        <dt class="slds-item_label slds-truncate" title="Industry">Type</dt>
+                        <dd class="slds-item_detail slds-truncate">{opp.type}</dd>
+                        <dt class="slds-item_label slds-truncate" title="Website">
+                            Amount
+                        </dt>
+                        <dd class="slds-item_detail slds-truncate">$ {opp.amount}</dd>
+                    </dl>
+
+                    <!-- Modal/Popup Box LWC footer starts here -->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">
+                            Cancel
+                        </button>
+                        <button class="slds-button slds-button_brand" onclick={sended} title="Send">
+                            Send
+                        </button>
+                    </footer>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>
